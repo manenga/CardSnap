@@ -1,5 +1,5 @@
 name: credit_card_capture
-description: "A new Flutter project."
+description: "CardSnap is a simple flutter app built to provide a quick and secure way to capture and store credit card information."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -40,6 +40,7 @@ dependencies:
   credit_card_scanner: ^1.0.5
   camera: ^0.11.0+1
   country_picker: ^2.0.26
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +53,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
 
+flutter_launcher_icons:
+  image_path: 'assets/images/logo.png'
+  android: true
+  ios: true
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
