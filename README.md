@@ -3,7 +3,7 @@
 <img src="https://github.com/manenga/CardSnap/blob/main/assets/images/logo.png?raw=true" alt="logo" width="160"/>
 
 ## Purpose
-The purpose of CardSnap is to provide a quick and secure way to capture and store credit card information. Designed for ease of use and efficiency, CardSnap simplifies the process of handling credit card details built in Dart with Flutter.
+The purpose of CardSnap is to provide a quick and secure way to capture and store credit card information. Designed for ease of use and efficiency. CardSnap simplifies the process of handling credit card details built in Dart with Flutter.
 
 ## Features
 * Manual Card Entry: Easily enter your card information manually.
