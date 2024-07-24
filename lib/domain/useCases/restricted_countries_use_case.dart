@@ -2,7 +2,6 @@ import 'package:credit_card_capture/domain/repositories/restricted_countries_rep
 
 class GetRestrictedCountriesUseCase {
   final RestrictedCountriesRepository repository;
-
   GetRestrictedCountriesUseCase({required this.repository});
 
   Future<List<String>> execute() async {

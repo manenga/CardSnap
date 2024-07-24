@@ -7,7 +7,9 @@ class RestrictedCountriesRepositoryImpl
   @override
   Future<List<String>> getRestrictedCountries() async {
     await Future.delayed(
-        const Duration(seconds: 2)); // Simulating network delay
+        const Duration(seconds: 2
+        )
+    );
     return restrictedCountries;
   }
 }

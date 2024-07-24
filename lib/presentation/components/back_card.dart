@@ -67,7 +67,8 @@ class BackCard extends StatelessWidget {
                               style: GoogleFonts.poppins(
                                 fontSize: 11,
                                 color: SharedStyles.getFontColorForBackground(
-                                    cardDetails.cardColor),
+                                    cardDetails.cardColor
+                                ),
                               ),
                             ),
                             Text(
@@ -92,7 +93,8 @@ class BackCard extends StatelessWidget {
                   style: GoogleFonts.roboto(
                     fontSize: 14,
                     color: SharedStyles.getFontColorForBackground(
-                        cardDetails.cardColor),
+                        cardDetails.cardColor
+                    ),
                   ),
                 ),
               ),

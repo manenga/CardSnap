@@ -1,7 +1,6 @@
 import 'package:credit_card_capture/data/repositories/credit_card_repository.dart';
 import 'package:credit_card_capture/domain/useCases/credit_card_use_case.dart';
 import 'package:flutter/material.dart';
-
 import '../../domain/entities/credit_card_entity.dart';
 
 final class WalletProvider extends ChangeNotifier {
@@ -11,6 +10,7 @@ final class WalletProvider extends ChangeNotifier {
 
   void initializeProvider() async {
     _cards = await useCase.execute();
+    notifyListeners();
   }
 
   void add(CreditCardEntity card) {

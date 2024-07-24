@@ -1,8 +1,9 @@
 import 'package:credit_card_capture/domain/viewModels/add_card_vm.dart';
+import 'package:credit_card_capture/domain/viewModels/card_details_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../domain/entities/credit_card_entity.dart';
+import '../../../domain/viewModels/home_page_vm.dart';
 import '../../components/empty_wallet.dart';
 import '../../components/front_card.dart';
 import '../../providers/wallet_provider.dart';
@@ -10,9 +11,9 @@ import '../card_detail/card_detail_page.dart';
 import '../new_card/add_new_card.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  const HomePage({super.key, required this.viewModel});
 
-  final String title;
+  final HomePageViewModel viewModel;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,16 +23,6 @@ class _HomePageState extends State<HomePage> with RouteAware {
   WalletProvider _walletProvider = WalletProvider();
   final ScrollController _listWheelController = ScrollController();
   final double _cardHeight = 260;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_walletProvider.isEmpty()) {
-      Future.delayed(const Duration(seconds: 1), () {
-        _animateToCenter();
-      });
-    }
-  }
 
   void _goToAddNewCardPage() {
     var viewModel = AddNewCardViewModel(
@@ -52,21 +43,13 @@ class _HomePageState extends State<HomePage> with RouteAware {
         context,
         MaterialPageRoute(
             builder: (context) => CardDetailPage(
-                  title: "Card details",
-                  cardDetails: cardDetails,
-                  wallet: _walletProvider,
-                )),
-      );
-    }
-  }
-
-  void _animateToCenter() {
-    int index = _walletProvider.getMidPoint();
-    if (index != -1 && _walletProvider.getCardAt(index) != null) {
-      _listWheelController.animateTo(
-        index * _cardHeight,
-        duration: const Duration(seconds: 1),
-        curve: Curves.fastOutSlowIn,
+                  viewModel: CardDetailsViewModel(
+                    title: "Card details",
+                    cardDetails: cardDetails,
+                    walletProvider: _walletProvider,
+                  ),
+                )
+        ),
       );
     }
   }
@@ -77,7 +60,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(widget.viewModel.title),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

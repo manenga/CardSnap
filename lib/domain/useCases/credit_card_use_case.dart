@@ -3,7 +3,6 @@ import 'package:credit_card_capture/domain/repositories/credit_card_repository.d
 
 class GetCardsUseCase {
   final CreditCardRepository repository;
-
   GetCardsUseCase({required this.repository});
 
   Future<List<CreditCardEntity>> execute() async {

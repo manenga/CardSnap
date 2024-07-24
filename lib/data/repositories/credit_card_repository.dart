@@ -6,7 +6,9 @@ class CreditCardRepositoryImpl implements CreditCardRepository {
   @override
   Future<List<CreditCardEntity>> getCards() async {
     await Future.delayed(
-        const Duration(milliseconds: 400)); // Simulating network delay
+        const Duration(milliseconds: 400
+        )
+    );
     return initialCards;
   }
 }

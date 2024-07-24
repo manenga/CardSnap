@@ -1,6 +1,5 @@
 import 'package:credit_card_capture/utils/card_types.dart';
 import 'package:flutter/material.dart';
-
 import '../../data/repositories/restricted_countries_repository.dart';
 import '../../presentation/providers/wallet_provider.dart';
 import '../../utils/helpers.dart';
@@ -49,7 +48,6 @@ class AddNewCardViewModel extends ChangeNotifier {
   }
 
   bool isRestrictedCountry() {
-    print('comparing $countryCode to $restrictedCountries');
     return restrictedCountries
         .where((element) => element == countryCode)
         .isNotEmpty;

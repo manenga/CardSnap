@@ -3,6 +3,7 @@ import 'package:credit_card_capture/utils/shared_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'domain/viewModels/home_page_vm.dart';
 import 'presentation/providers/wallet_provider.dart';
 
 void main() {
@@ -26,7 +27,11 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             textTheme: SharedStyles.textTheme,
           ),
-          home: const HomePage(title: 'My Cards'),
+          home: HomePage(
+              viewModel: HomePageViewModel(
+                  title: 'My Cards'
+              )
+          ),
         ));
   }
 }
