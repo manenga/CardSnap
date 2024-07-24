@@ -16,6 +16,16 @@ The purpose of CardSnap is to provide a quick and secure way to capture and stor
 | ------------- | ------------- |
 | ![Card List Page](https://github.com/manenga/CardSnap/blob/main/screenshots/Card%20List%20Page.png?raw=true)  | ![Add A New Card](https://github.com/manenga/CardSnap/blob/main/screenshots/Add%20Card%20Page.png)  |
 
+## Banned Countries
+For Testing Purposes, We Have Randomly Selected the Following Countries:
+* AZ: Azerbaijan
+* CA: Canada
+* CM: Cameroon
+* FI: Finland
+* MW: Malawi
+* MY: Malaysia
+* NZ: New Zealand
+* UY: Uruguay
 
 ## How can I support the developer?
 - Star our GitHub repo ⭐
