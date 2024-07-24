@@ -11,6 +11,9 @@ The purpose of CardSnap is to provide a quick and secure way to capture and stor
 * Local Session Storage: Save your card information securely within the local session.
 
 # Screenshots
+| List All | Add Card |
+| ------------- | ------------- |
+| ![Card List Page](https://github.com/manenga/CardSnap/blob/main/screenshots/Card%20List%20Page.png?raw=true)  | ![Add A New Card](https://github.com/manenga/CardSnap/blob/main/screenshots/Add%20Card%20Page.png)  |
 
 
 ## How can I support the developer?
