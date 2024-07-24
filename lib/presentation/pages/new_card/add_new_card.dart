@@ -41,7 +41,6 @@ class _AddNewCardPageState extends State<AddNewCardPage> {
     var cardHolderName = cardDetails?.cardHolderName;
     var cardExpiryDate = cardDetails?.expiryDate;
 
-    print('Scanned card: cardNumber: $cardNumber, cardHolderName: $cardHolderName, cardExpiryDate: $cardExpiryDate');
     if (cardNumber != null) {
       _viewModel.setCardNumber(cardNumber);
       _viewModel.setCardNumberErrorMessage("");
