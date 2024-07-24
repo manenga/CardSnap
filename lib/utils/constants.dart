@@ -75,10 +75,14 @@ final List<CreditCardEntity> initialCards = [
 ];
 
 final List<String> restrictedCountries = [
-  'AF',
-  'IR',
-  'IQ',
-  'SY',
+  'AZ',
+  'CA',
+  'CM',
+  'FI',
+  'MW',
+  'MY',
+  'NZ',
+  'UY',
 ];
 
 class Strings {

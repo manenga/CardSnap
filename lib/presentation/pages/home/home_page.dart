@@ -33,7 +33,10 @@ class _HomePageState extends State<HomePage> with RouteAware {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddNewCardPage(viewModel: viewModel)),
+          builder: (context) => AddNewCardPage(
+              viewModel: viewModel
+          )
+      ),
     );
   }
 
