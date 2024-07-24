@@ -26,13 +26,11 @@ class _HomePageState extends State<HomePage> with RouteAware {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Future.delayed(const Duration(seconds: 1), () {
-      try {
+    if (!_walletProvider.isEmpty()) {
+      Future.delayed(const Duration(seconds: 1), () {
         _animateToCenter();
-      } on Exception catch (_, e) {
-        debugPrint('Caught exception $e');
-      }
-    });
+      });
+    }
   }
 
   void _goToAddNewCardPage() {
@@ -67,7 +65,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
     if (index != -1 && _walletProvider.getCardAt(index) != null) {
       _listWheelController.animateTo(
         index * _cardHeight,
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 1),
         curve: Curves.fastOutSlowIn,
       );
     }
