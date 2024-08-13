@@ -1,7 +1,6 @@
 import 'package:credit_card_capture/utils/shared_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../domain/entities/credit_card_entity.dart';
 import '../../utils/constants.dart';
 

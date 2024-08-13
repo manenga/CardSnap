@@ -14,7 +14,8 @@ class CardNumberInputFormatter extends TextInputFormatter {
         text: buffer.toString(),
         selection: TextSelection.collapsed(
           offset: buffer.toString().length,
-        ));
+        )
+    );
   }
 }
 
@@ -31,6 +32,7 @@ class ExpiryDateInputFormatter extends TextInputFormatter {
         text: buffer.toString(),
         selection: TextSelection.collapsed(
           offset: buffer.toString().length,
-        ));
+        )
+    );
   }
 }

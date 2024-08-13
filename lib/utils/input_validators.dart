@@ -1,5 +1,4 @@
 import 'package:credit_card_capture/utils/helpers.dart';
-
 import 'card_types.dart';
 
 class Validators {

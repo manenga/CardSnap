@@ -134,7 +134,8 @@ class FrontCard extends StatelessWidget {
                             fit: BoxFit.fitWidth,
                             color: SharedStyles.getFontColorForBackground(
                                 cardColor)),
-                      ]),
+                      ]
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(
@@ -188,7 +189,8 @@ class FrontCard extends StatelessWidget {
                         BankLogo(
                             color: SharedStyles.getFontColorForBackground(
                                 cardColor))
-                      ]),
+                      ]
+                  ),
                 ),
               ],
             ),
