@@ -46,3 +46,7 @@ jobs:
       # want to change this to 'flutter test'.
       - name: Run tests
         run: flutter test
+
+      - name: AI Code Review Action
+        uses: freeedcom/ai-codereviewer@v2.7.0
+
