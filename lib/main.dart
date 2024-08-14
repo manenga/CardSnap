@@ -13,25 +13,35 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    var provider = WalletProvider();
-    provider.initializeProvider();
-    return ChangeNotifierProvider(
-        create: (context) => provider,
-        child: MaterialApp(
-          title: 'Credit Card Capture App',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-            textTheme: SharedStyles.textTheme,
-          ),
-          home: HomePage(
-              viewModel: HomePageViewModel(
-                  title: 'My Cards'
-              )
-          ),
-        ));
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => WalletProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Credit Card Capture App',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          textTheme: SharedStyles.textTheme,
+        ),
+        home: const HomePageWrapper(),
+      ),
+    );
+  }
+}
+
+class HomePageWrapper extends StatelessWidget {
+  const HomePageWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<WalletProvider>(
+      builder: (context, provider, child) {
+        return HomePage(
+            viewModel: HomePageViewModel(title: provider.getTitle()));
+      },
+    );
   }
 }
