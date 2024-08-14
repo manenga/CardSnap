@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../utils/card_types.dart';
 import '../../utils/helpers.dart';
 
-final class CreditCardEntity extends ChangeNotifier {
+class CreditCardEntity {
   final String cardNumber;
   final String holderName;
   final String expiryDate;
@@ -45,8 +45,9 @@ final class CreditCardEntity extends ChangeNotifier {
     return Helpers.getPrettyCardNumber(cardNumber);
   }
 
-  Widget? getCardIcon() {
-    return Helpers.getCardIcon(getCardType());
+  Widget getCardIcon() {
+    // Ensure that the icon is not null; provide a default icon if necessary
+    return Helpers.getCardIcon(getCardType()) ?? const Icon(Icons.credit_card);
   }
 
   String getCountryCode() {

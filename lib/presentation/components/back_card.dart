@@ -1,6 +1,7 @@
 import 'package:credit_card_capture/utils/shared_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../domain/entities/credit_card_entity.dart';
 import '../../utils/constants.dart';
 
@@ -17,9 +18,7 @@ class BackCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        onPressed();
-      },
+      onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
           color: cardDetails.cardColor,
@@ -39,66 +38,65 @@ class BackCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Container(
-                color: Colors.black,
-                height: 45,
-              ),
-              // const Spacer(flex: 2),
-              Container(
-                height: 50,
-                decoration: const BoxDecoration(
-                  color: Colors.white10,
-                ),
-                child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Spacer(flex: 1),
-                      Container(
-                        color: Colors.white12,
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'cvv',
-                              style: GoogleFonts.poppins(
-                                fontSize: 11,
-                                color: SharedStyles.getFontColorForBackground(
-                                    cardDetails.cardColor
-                                ),
-                              ),
-                            ),
-                            Text(
-                              cardDetails.cvvNumber,
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                color: SharedStyles.getFontColorForBackground(
-                                    cardDetails.cardColor),
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-              ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20, 20, 20, 10),
-                child: Text(
-                  Strings.cardDisclaimer,
-                  style: GoogleFonts.roboto(
-                    fontSize: 14,
-                    color: SharedStyles.getFontColorForBackground(
-                        cardDetails.cardColor
-                    ),
-                  ),
-                ),
-              ),
+              _buildCvvContainer(),
+              _buildDisclaimerText(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCvvContainer() {
+    return Container(
+      height: 50,
+      decoration: const BoxDecoration(color: Colors.white10),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Spacer(),
+          Container(
+            color: Colors.white12,
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'cvv',
+                  style: GoogleFonts.poppins(
+                    fontSize: 11,
+                    color: SharedStyles.getFontColorForBackground(
+                        cardDetails.cardColor),
+                  ),
+                ),
+                Text(
+                  cardDetails.cvvNumber,
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    color: SharedStyles.getFontColorForBackground(
+                        cardDetails.cardColor),
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDisclaimerText() {
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(20, 20, 20, 10),
+      child: Text(
+        Strings.cardDisclaimer,
+        style: GoogleFonts.roboto(
+          fontSize: 14,
+          color: SharedStyles.getFontColorForBackground(cardDetails.cardColor),
         ),
       ),
     );
