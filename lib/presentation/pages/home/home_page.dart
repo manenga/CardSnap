@@ -8,8 +8,8 @@ import '../../../domain/viewModels/home_page_vm.dart';
 import '../../components/empty_wallet.dart';
 import '../../components/front_card.dart';
 import '../../providers/wallet_provider.dart';
+import '../add_card/add_new_card.dart';
 import '../card_detail/card_detail_page.dart';
-import '../new_card/add_new_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.viewModel});

@@ -1,7 +1,9 @@
+import 'package:credit_card_capture/presentation/providers/wallet_providing.dart';
 import 'package:credit_card_capture/utils/card_types.dart';
 import 'package:flutter/material.dart';
+
 import '../../data/repositories/restricted_countries_repository.dart';
-import '../../presentation/providers/wallet_provider.dart';
+import '../../utils/card_error_types.dart';
 import '../../utils/helpers.dart';
 import '../../utils/input_validators.dart';
 import '../entities/credit_card_entity.dart';
@@ -9,7 +11,7 @@ import '../useCases/restricted_countries_use_case.dart';
 
 class AddNewCardViewModel extends ChangeNotifier {
   final String title;
-  final WalletProvider walletProvider;
+  final WalletProviding walletProvider;
   late List<String> restrictedCountries = [];
 
   String cardNumber = "";
@@ -41,47 +43,39 @@ class AddNewCardViewModel extends ChangeNotifier {
     );
   }
 
-  void fetchRestrictedCountries() async {
+  Future<void> fetchRestrictedCountries() async {
     restrictedCountries = await GetRestrictedCountriesUseCase(
-            repository: RestrictedCountriesRepositoryImpl())
-        .execute();
+      repository: RestrictedCountriesRepositoryImpl(),
+    ).execute();
   }
 
-  bool isRestrictedCountry() {
-    return restrictedCountries
-        .where((element) => element == countryCode)
-        .isNotEmpty;
-  }
+  bool isRestrictedCountry() => restrictedCountries.contains(countryCode);
 
-  bool doesCardAlreadyExist() {
-    return walletProvider.doesCardExist(getCard());
-  }
+  bool doesCardAlreadyExist() => walletProvider.doesCardExist(getCard());
 
   bool isCardValid() {
-    if (!Validators.isValidCardNumber(cardNumber)) {
-      cardNumberErrorMessage = "Card number is not valid";
-      notifyListeners();
-    }
-    if (!Validators.isValidCardHolderName(cardHolderName)) {
-      cardHolderErrorMessage = "Card holder name is not valid";
-      notifyListeners();
-    }
-    if (!Validators.isValidCardCvvNumber(cardCvvNumber)) {
-      cardCvvNumberErrorMessage = "Cvv is not valid";
-      notifyListeners();
-    }
-    if (!Validators.isValidCardExpiryDate(cardExpiryDate)) {
-      cardExpiryDateErrorMessage = "Expiry date is not valid";
-      notifyListeners();
-    }
+    bool isValid = true;
 
-    if (Validators.isValidCardNumber(cardNumber) &&
-        Validators.isValidCardHolderName(cardHolderName) &&
-        Validators.isValidCardCvvNumber(cardCvvNumber) &&
-        Validators.isValidCardExpiryDate(cardExpiryDate)) {
-      return true;
+    // Validate card fields and set error messages
+    isValid &= _validateField(Validators.isValidCardNumber(cardNumber),
+        (msg) => cardNumberErrorMessage = msg, "Card number is not valid");
+    isValid &= _validateField(Validators.isValidCardHolderName(cardHolderName),
+        (msg) => cardHolderErrorMessage = msg, "Card holder name is not valid");
+    isValid &= _validateField(Validators.isValidCardCvvNumber(cardCvvNumber),
+        (msg) => cardCvvNumberErrorMessage = msg, "CVV is not valid");
+    isValid &= _validateField(Validators.isValidCardExpiryDate(cardExpiryDate),
+        (msg) => cardExpiryDateErrorMessage = msg, "Expiry date is not valid");
+
+    notifyListeners();
+    return isValid;
+  }
+
+  bool _validateField(
+      bool isValid, Function(String) setErrorMessage, String errorMessage) {
+    if (!isValid) {
+      setErrorMessage(errorMessage);
     }
-    return false;
+    return isValid;
   }
 
   void refreshCardType() {
@@ -99,48 +93,50 @@ class AddNewCardViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCountry(code) {
+  void setCountry(String code) {
     countryCode = code;
     notifyListeners();
   }
 
   void setCardNumber(String text) {
     cardNumber = Helpers.getPrettyCardNumber(text);
+    setCardErrorMessage(CardErrorType.number, "");
     notifyListeners();
   }
 
   void setCardHolderName(String text) {
     cardHolderName = text;
+    setCardErrorMessage(CardErrorType.holder, "");
     notifyListeners();
   }
 
   void setCardExpiryDate(String date) {
     cardExpiryDate = date;
+    setCardErrorMessage(CardErrorType.expiry, "");
     notifyListeners();
   }
 
   void setCardCvvNumber(String text) {
     cardCvvNumber = text;
+    setCardErrorMessage(CardErrorType.cvv, "");
     notifyListeners();
   }
 
-  void setCardNumberErrorMessage(String message) {
-    cardNumberErrorMessage = message;
-    notifyListeners();
-  }
-
-  void setCardHolderErrorMessage(String message) {
-    cardHolderErrorMessage = message;
-    notifyListeners();
-  }
-
-  void setCardExpiryDateErrorMessage(String message) {
-    cardExpiryDateErrorMessage = message;
-    notifyListeners();
-  }
-
-  void setCardCvvNumberErrorMessage(String message) {
-    cardCvvNumberErrorMessage = message;
+  void setCardErrorMessage(CardErrorType type, String message) {
+    switch (type) {
+      case CardErrorType.number:
+        cardNumberErrorMessage = message;
+        break;
+      case CardErrorType.holder:
+        cardHolderErrorMessage = message;
+        break;
+      case CardErrorType.expiry:
+        cardExpiryDateErrorMessage = message;
+        break;
+      case CardErrorType.cvv:
+        cardCvvNumberErrorMessage = message;
+        break;
+    }
     notifyListeners();
   }
 
