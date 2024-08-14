@@ -1,3 +1,4 @@
+import 'package:credit_card_capture/presentation/providers/wallet_provider.dart';
 import 'package:credit_card_capture/presentation/providers/wallet_providing.dart';
 import 'package:credit_card_capture/utils/card_types.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,14 @@ import '../../utils/card_error_types.dart';
 import '../../utils/helpers.dart';
 import '../../utils/input_validators.dart';
 import '../entities/credit_card_entity.dart';
+import '../repositories/restricted_countries_repository.dart';
 import '../useCases/restricted_countries_use_case.dart';
 
 class AddNewCardViewModel extends ChangeNotifier {
   final String title;
   final WalletProviding walletProvider;
-  late List<String> restrictedCountries = [];
+  List<String> restrictedCountries = [];
+  final RestrictedCountriesRepository repo;
 
   String cardNumber = "";
   String cardHolderName = "";
@@ -29,8 +32,10 @@ class AddNewCardViewModel extends ChangeNotifier {
 
   AddNewCardViewModel({
     required this.title,
-    required this.walletProvider,
-  });
+    WalletProviding? walletProvider,
+    RestrictedCountriesRepository? repository,
+  })  : repo = repository ?? RestrictedCountriesRepositoryImpl(),
+        walletProvider = walletProvider ?? WalletProvider();
 
   CreditCardEntity getCard() {
     return CreditCardEntity(
@@ -45,7 +50,7 @@ class AddNewCardViewModel extends ChangeNotifier {
 
   Future<void> fetchRestrictedCountries() async {
     restrictedCountries = await GetRestrictedCountriesUseCase(
-      repository: RestrictedCountriesRepositoryImpl(),
+      repository: repo,
     ).execute();
   }
 

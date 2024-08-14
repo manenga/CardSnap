@@ -1,10 +1,10 @@
-import 'package:credit_card_capture/domain/entities/credit_card_entity.dart';
 import 'package:credit_card_capture/domain/viewModels/add_card_vm.dart';
 import 'package:credit_card_capture/presentation/pages/add_card/add_new_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
+import '../mocks/mock_restricted_countries_repository.dart';
 import '../mocks/mock_wallet_provider.dart';
 
 void main() {
@@ -13,19 +13,12 @@ void main() {
     late MockWalletProvider provider;
 
     setUp(() {
-      provider = MockWalletProvider([
-        CreditCardEntity(
-            cardNumber: '1234567812345678',
-            holderName: 'John Doe',
-            expiryDate: '12/25',
-            cvvNumber: '123',
-            cardColor: Colors.black,
-            countryCode: 'ZA')
-      ]);
+      provider = MockWalletProvider([]);
       viewModel = AddNewCardViewModel(
-        title: 'Add New Card',
-        walletProvider: provider,
-      );
+          title: 'Add New Card',
+          walletProvider: provider,
+          repository:
+              MockRestrictedCountriesRepository(restrictedCountries: []));
     });
 
     testWidgets('renders all input fields and buttons',
