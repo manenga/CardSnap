@@ -1,25 +1,20 @@
-import 'package:credit_card_capture/data/repositories/credit_card_repository.dart';
-import 'package:credit_card_capture/domain/useCases/credit_card_use_case.dart';
+import 'package:credit_card_capture/domain/entities/credit_card_entity.dart';
 import 'package:credit_card_capture/presentation/providers/wallet_providing.dart';
-import 'package:flutter/material.dart';
+import 'package:mockito/mockito.dart';
 
-import '../../domain/entities/credit_card_entity.dart';
+class MockWalletProvider extends Mock implements WalletProviding {
+  List<CreditCardEntity> _cards = [];
 
-final class WalletProvider extends ChangeNotifier implements WalletProviding {
-  late List<CreditCardEntity> _cards = [];
-  final GetCardsUseCase useCase =
-      GetCardsUseCase(repository: CreditCardRepositoryImpl());
+  MockWalletProvider(List<CreditCardEntity> cards) {
+    _cards = cards;
+  }
 
   @override
-  Future<void> initializeProvider() async {
-    _cards = await useCase.execute();
-    notifyListeners();
-  }
+  Future<void> initializeProvider() async {}
 
   @override
   void add(CreditCardEntity card) {
     _cards.add(card);
-    notifyListeners();
   }
 
   @override
@@ -27,7 +22,6 @@ final class WalletProvider extends ChangeNotifier implements WalletProviding {
     int index = _cards.indexWhere((element) => element.cardNumber == number);
     if (index != -1) {
       _cards.removeAt(index);
-      notifyListeners();
     }
   }
 
