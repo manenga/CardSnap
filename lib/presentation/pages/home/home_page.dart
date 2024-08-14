@@ -2,6 +2,7 @@ import 'package:credit_card_capture/domain/viewModels/add_card_vm.dart';
 import 'package:credit_card_capture/domain/viewModels/card_details_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../domain/entities/credit_card_entity.dart';
 import '../../../domain/viewModels/home_page_vm.dart';
 import '../../components/empty_wallet.dart';
@@ -12,7 +13,6 @@ import '../new_card/add_new_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.viewModel});
-
   final HomePageViewModel viewModel;
 
   @override
@@ -20,12 +20,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with RouteAware {
-  WalletProvider _walletProvider = WalletProvider();
+  late WalletProvider _walletProvider;
   final ScrollController _listWheelController = ScrollController();
-  final double _cardHeight = 260;
+  static const double _cardHeight = 260;
 
   void _goToAddNewCardPage() {
-    var viewModel = AddNewCardViewModel(
+    final viewModel = AddNewCardViewModel(
       title: "Add A New Card",
       walletProvider: _walletProvider,
     );
@@ -33,10 +33,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddNewCardPage(
-              viewModel: viewModel
-          )
-      ),
+          builder: (context) => AddNewCardPage(viewModel: viewModel)),
     );
   }
 
@@ -45,13 +42,13 @@ class _HomePageState extends State<HomePage> with RouteAware {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => CardDetailPage(
-                  viewModel: CardDetailsViewModel(
-                    title: "Card details",
-                    cardDetails: cardDetails,
-                    walletProvider: _walletProvider,
-                  ),
-                )
+          builder: (context) => CardDetailPage(
+            viewModel: CardDetailsViewModel(
+              title: "Card details",
+              cardDetails: cardDetails,
+              walletProvider: _walletProvider,
+            ),
+          ),
         ),
       );
     }
@@ -74,48 +71,14 @@ class _HomePageState extends State<HomePage> with RouteAware {
               if (dataProvider.isEmpty()) {
                 return const EmptyWalletWidget();
               }
+              final cards = _walletProvider.getAll();
               return Expanded(
                 child: ListWheelScrollView(
-                    itemExtent: _cardHeight,
-                    diameterRatio: 3.5,
-                    controller: _listWheelController,
-                    children: [
-                      for (int itemIndex = 0;
-                          itemIndex < _walletProvider.getAll().length;
-                          itemIndex++) ...[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FrontCard(
-                              cardNumber: _walletProvider
-                                      .getCardAt(itemIndex)
-                                      ?.getPrettyCardNumber() ??
-                                  "",
-                              cardHolder: _walletProvider
-                                      .getCardAt(itemIndex)
-                                      ?.getCardHolder() ??
-                                  "",
-                              expiryDate: _walletProvider
-                                      .getCardAt(itemIndex)
-                                      ?.getCardExpiryDate() ??
-                                  "",
-                              cardIcon: _walletProvider
-                                  .getCardAt(itemIndex)
-                                  ?.getCardIcon(),
-                              countryCode: _walletProvider
-                                      .getCardAt(itemIndex)
-                                      ?.getCountryCode() ??
-                                  "ZA",
-                              cardColor: _walletProvider
-                                      .getCardAt(itemIndex)
-                                      ?.getCardColor() ??
-                                  Colors.amber,
-                              onPressed: () {
-                                _goToCardDetailPage(
-                                    _walletProvider.getCardAt(itemIndex));
-                              }),
-                        ),
-                      ]
-                    ]),
+                  itemExtent: _cardHeight,
+                  diameterRatio: 3.5,
+                  controller: _listWheelController,
+                  children: cards.map((card) => _buildCard(card)).toList(),
+                ),
               );
             },
           ),
@@ -126,7 +89,22 @@ class _HomePageState extends State<HomePage> with RouteAware {
         onPressed: _goToAddNewCardPage,
         tooltip: 'Add a new card',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+    );
+  }
+
+  Widget _buildCard(CreditCardEntity card) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: FrontCard(
+        cardNumber: card.getPrettyCardNumber(),
+        cardHolder: card.getCardHolder(),
+        expiryDate: card.getCardExpiryDate(),
+        cardIcon: card.getCardIcon(),
+        countryCode: card.getCountryCode(),
+        cardColor: card.getCardColor(),
+        onPressed: () => _goToCardDetailPage(card),
+      ),
     );
   }
 }
