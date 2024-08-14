@@ -13,6 +13,7 @@ import '../card_detail/card_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.viewModel});
+
   final HomePageViewModel viewModel;
 
   @override
@@ -20,14 +21,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with RouteAware {
-  late WalletProvider _walletProvider;
   final ScrollController _listWheelController = ScrollController();
   static const double _cardHeight = 260;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final provider = Provider.of<WalletProvider>(context);
+    provider.initializeProvider();
+  }
 
   void _goToAddNewCardPage() {
     final viewModel = AddNewCardViewModel(
       title: "Add A New Card",
-      walletProvider: _walletProvider,
     );
     viewModel.fetchRestrictedCountries();
     Navigator.push(
@@ -46,7 +57,6 @@ class _HomePageState extends State<HomePage> with RouteAware {
             viewModel: CardDetailsViewModel(
               title: "Card details",
               cardDetails: cardDetails,
-              walletProvider: _walletProvider,
             ),
           ),
         ),
@@ -56,37 +66,36 @@ class _HomePageState extends State<HomePage> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    _walletProvider = Provider.of<WalletProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.viewModel.title),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Consumer<WalletProvider>(
-            builder: (context, dataProvider, child) {
-              if (dataProvider.isEmpty()) {
-                return const EmptyWalletWidget();
-              }
-              final cards = _walletProvider.getAll();
-              return Expanded(
+      body: Consumer<WalletProvider>(
+        builder: (context, dataProvider, child) {
+          if (dataProvider.isEmpty()) {
+            return const EmptyWalletWidget();
+          }
+          final cards = dataProvider.getAll();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
                 child: ListWheelScrollView(
                   itemExtent: _cardHeight,
                   diameterRatio: 3.5,
                   controller: _listWheelController,
                   children: cards.map((card) => _buildCard(card)).toList(),
                 ),
-              );
-            },
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         key: const Key('add_new_card_fab'),
-        onPressed: _goToAddNewCardPage,
+        onPressed: () => _goToAddNewCardPage(),
         tooltip: 'Add a new card',
         child: const Icon(Icons.add),
       ),

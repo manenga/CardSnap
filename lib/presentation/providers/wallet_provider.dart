@@ -57,9 +57,4 @@ final class WalletProvider extends ChangeNotifier implements WalletProviding {
     return _cards.any((element) =>
         element.cardNumber == Helpers.getCleanedNumber(card.cardNumber));
   }
-
-  @override
-  String getTitle() {
-    return "My Cards";
-  }
 }

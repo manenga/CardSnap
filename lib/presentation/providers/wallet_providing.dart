@@ -24,7 +24,4 @@ abstract class WalletProviding {
 
   /// Checks if a specific card already exists in the wallet.
   bool doesCardExist(CreditCardEntity card);
-
-  /// Retrieves the title for the wallet.
-  String getTitle();
 }

@@ -51,9 +51,4 @@ class MockWalletProvider extends Mock implements WalletProviding {
     return _cards.any((element) =>
         element.cardNumber == Helpers.getCleanedNumber(card.cardNumber));
   }
-
-  @override
-  String getTitle() {
-    return "My Cards";
-  }
 }

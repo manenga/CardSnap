@@ -1,8 +1,3 @@
-
 class HomePageViewModel {
-  final String title;
-
-  HomePageViewModel({
-    required this.title,
-  });
+  final String title = "My Cards";
 }

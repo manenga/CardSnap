@@ -26,22 +26,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           textTheme: SharedStyles.textTheme,
         ),
-        home: const HomePageWrapper(),
+        home: HomePage(viewModel: HomePageViewModel()),
       ),
-    );
-  }
-}
-
-class HomePageWrapper extends StatelessWidget {
-  const HomePageWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<WalletProvider>(
-      builder: (context, provider, child) {
-        return HomePage(
-            viewModel: HomePageViewModel(title: provider.getTitle()));
-      },
     );
   }
 }

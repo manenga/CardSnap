@@ -1,6 +1,8 @@
 import 'package:credit_card_capture/domain/viewModels/card_details_vm.dart';
 import 'package:credit_card_capture/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../../domain/entities/credit_card_entity.dart';
 import '../../../utils/card_types.dart';
 import '../../../utils/constants.dart';
@@ -20,12 +22,10 @@ class _CardDetailPageState extends State<CardDetailPage> {
   final TextEditingController cardNumberController = TextEditingController();
   CardType cardType = CardType.invalid;
   late CreditCardEntity _cardDetails;
-  late WalletProvider _wallet;
 
   @override
   void initState() {
     super.initState();
-    _wallet = widget.viewModel.walletProvider;
     _cardDetails = widget.viewModel.cardDetails;
     cardNumberController.addListener(_updateCardType);
   }
@@ -50,8 +50,8 @@ class _CardDetailPageState extends State<CardDetailPage> {
     }
   }
 
-  void _deleteCard() {
-    _wallet.removeByCardNumber(_cardDetails.cardNumber);
+  void _deleteCard(WalletProvider walletProvider) {
+    walletProvider.removeByCardNumber(_cardDetails.cardNumber);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('You have deleted your card')),
     );
@@ -77,7 +77,7 @@ class _CardDetailPageState extends State<CardDetailPage> {
                 child: FlippableCard(cardDetails: _cardDetails),
               ),
               const SizedBox(height: 24.0),
-              _buildActionSection(),
+              _buildActionSection(context),
             ],
           ),
         ),
@@ -85,7 +85,8 @@ class _CardDetailPageState extends State<CardDetailPage> {
     );
   }
 
-  Widget _buildActionSection() {
+  Widget _buildActionSection(BuildContext context) {
+    final provider = Provider.of<WalletProvider>(context);
     return Column(
       children: [
         _buildActionHeader(),
@@ -103,7 +104,7 @@ class _CardDetailPageState extends State<CardDetailPage> {
                 ),
                 minimumSize: const Size(100, 40),
               ),
-              onPressed: _deleteCard,
+              onPressed: () => _deleteCard(provider),
               child: const Text("Delete card"),
             ),
           ),
