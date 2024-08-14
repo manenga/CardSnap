@@ -1,5 +1,6 @@
 import 'package:credit_card_capture/domain/entities/credit_card_entity.dart';
 import 'package:credit_card_capture/presentation/providers/wallet_providing.dart';
+import 'package:credit_card_capture/utils/helpers.dart';
 import 'package:mockito/mockito.dart';
 
 class MockWalletProvider extends Mock implements WalletProviding {
@@ -47,7 +48,8 @@ class MockWalletProvider extends Mock implements WalletProviding {
 
   @override
   bool doesCardExist(CreditCardEntity card) {
-    return _cards.any((element) => element.cardNumber == card.cardNumber);
+    return _cards.any((element) =>
+        element.cardNumber == Helpers.getCleanedNumber(card.cardNumber));
   }
 
   @override
